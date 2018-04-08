@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StephenFetinko_Bullet-Hell</name>
+    </assembly>
+    <members>
+        <member name="T:StephenFetinko_Bullet_Hell.Bullet">
+            <summary>
+            Class for the bullets being shot
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.Bullet.#ctor(System.Drawing.Rectangle,System.Int32,System.Int32)">
+            <summary>
+            Constructor for the bullet
+            </summary>
+            <param name="canvas">Game area</param>
+            <param name="startX">Start X position based on player</param>
+            <param name="startY">Start Y position based on player</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.Bullet.Shoot">
+            <summary>
+            Function to handle the player actually shooting
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.Bullet.EnemyShooting(System.Int32)">
+            <summary>
+            Function to handle the enemy actually shooting
+            </summary>
+            <param name="wave">What wave we're on. Used for determining bullet colour</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.Bullet.Draw(System.Drawing.Graphics)">
+            <summary>
+            Handle drawing the bullet
+            </summary>
+            <param name="graphics">Graphics</param>
+        </member>
+        <member name="T:StephenFetinko_Bullet_Hell.EnemyShip">
+            <summary>
+            Class for the enemy.
+            Regular enemy https://opengameart.org/content/purple-space-ship
+            Boss https://postimg.org/image/cyf7qssc9/
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.EnemyShip.#ctor(System.Drawing.Rectangle,System.Int32,System.Int32)">
+            <summary>
+            Constructor for the enemy
+            </summary>
+            <param name="canvas">Play area</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.EnemyShip.MoveEnemy(StephenFetinko_Bullet_Hell.EnemyShip.Direction)">
+            <summary>
+            Class to handle the enemy moving. Done similar to the player
+            class minus the up variable so the enemy can come from somewhere
+            above (the idea is randomly) and then they will hand around the
+            upper portion of the play area and move around shooting down
+            </summary>
+            <param name="direction">Randomly chosen direction of movement</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.EnemyShip.Draw(System.Drawing.Graphics)">
+            <summary>
+            Class to draw the enemy icon
+            </summary>
+            <param name="graphics">Image of the enemy</param>
+        </member>
+        <member name="T:StephenFetinko_Bullet_Hell.BulletHell">
+            <summary>
+            Class for the main game
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.#ctor">
+            <summary>
+            Constructor for Ballistophobia. After we initialize,
+            set the minimum and maximum size to the current size
+            (which we set to 800x600 through the form.) to stop
+            resizing, then disable the minimize and maximize
+            buttons. Also set the background color to a 'morning'
+            colour. Also centered the screen.
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.BulletHell_Load(System.Object,System.EventArgs)">
+            <summary>
+            When the form loads, initialize the ship object and note
+            that the game hasn't actually 'started' yet to give time
+            for an intro message to be played. And also make a note
+            that the player has killed 0 enemies on load.
+            </summary>
+            <param name="sender">Object(Sender)</param>
+            <param name="e">Event(Load)</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.BulletHell_Paint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            The paint method for the main game (where we draw the ship and any messages and enemies)
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Paint</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.DisplayIntroMessage(System.Drawing.Graphics)">
+            <summary>
+            Function to display an intro message before the game begins
+            </summary>
+            <param name="graphics">Graphics</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.RemoveIntroMessage(System.Drawing.Graphics)">
+            <summary>
+            Remove the intro message. Draw string shouldn't take too much resources, so we
+            should be able to just draw over it again with no text
+            </summary>
+            <param name="graphics">Graphics</param>
+            <param name="timeOfDay">Text color based on time of day</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.BulletHell_KeyDown(System.Object,System.Windows.Forms.KeyEventArgs)">
+            <summary>
+            Handle the movement for the player object to move/shoot. If we have the
+            movement actually handled specifically on key press we'll have an issue
+            where there's slight delay if held down. We want to avoid that delay.
+            Best answer on https://stackoverflow.com/questions/29942437/removing-the-delay-after-keydown-event
+            defines using the key down event to set a movement direction instead
+            of actually moving
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Key pressed</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.BulletHell_KeyUp(System.Object,System.Windows.Forms.KeyEventArgs)">
+            <summary>
+            Key up event for smoother player movement. Changes the values
+            of bools when the key is up to avoid the player moving forever.
+            To avoid shooting issues have the shot fire on the key up as
+            well to avoid any problems that happens from the key down
+            event
+            </summary>
+            <param name="sender">Object</param>
+            <param name="e">Keyboard input</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.ShowKillCount(System.Drawing.Graphics)">
+            <summary>
+            Function to show off how many enemies are killed
+            </summary>
+            <param name="graphics">Graphics</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.GameTimer_Tick(System.Object,System.EventArgs)">
+            <summary>
+            Every tick of the in game timer we fire a shot, then have a for
+            loop that iterates every time the clock ticks if there are more
+            than 15 objects in the player bullets list then we continue to
+            remove the 0 element so at most there are 15 bullets from the player
+            we keep it at 15 as the limit so there's enough on screen when
+            they are removed. Also handle the game over, killing enemies,
+            enemies killing players, the enemies shot timer, and handling
+            waves of enemies and then ultimately refreshing the screen
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Timer tick</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.ShowWinMessage(System.Drawing.Graphics)">
+            <summary>
+            Function to show a win message if the player gets this far
+            </summary>
+            <param name="graphics"></param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.MovementTimer_Tick(System.Object,System.EventArgs)">
+            <summary>
+            Movement timer tick event. Handles the actual moving for the
+            moving. Done in a seperate timer to handle specific movement
+            in case anything happens in the game timer where the precision
+            of interval can be finicky sometimes. This acts as a failsafe.
+            ALSO this is because I pause this timer whenever the player
+            isn't moving, and if the actual game pauses whenever the player
+            does that's an issue.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.RandomNumber(System.Int32,System.Int32)">
+            <summary>
+            Random function from https://stackoverflow.com/questions/767999/random-number-generator-only-generating-one-random-number
+            This is used for sparadic bug like movements of the enemy ships
+            </summary>
+            <param name="min">Start of range</param>
+            <param name="max">End of range</param>
+            <returns></returns>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.HandleMovement(System.Int32)">
+            <summary>
+            Function to handle enemy movement depending on the wave
+            </summary>
+            <param name="waveNumber">What wave the player is on</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.HandleShootingEnemy(System.Int32)">
+            <summary>
+            Function to handle the enemy being shot
+            </summary>
+            <param name="waveNumber">What wave the player is on</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.HandleWaves(System.Int32)">
+            <summary>
+            Function to handle which wave the player is on
+            </summary>
+            <param name="waveNumber">What wave the player is on (is changed during function)</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.HandleMakingWave(System.Int32)">
+            <summary>
+            Function to handle creating the wave
+            </summary>
+            <param name="waveNumber">What wave the player is on</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.HandleEnemiesShooting(System.Int32)">
+            <summary>
+            Handle the enemies shots (the rate of fire and handling the player getting hit
+            </summary>
+            <param name="waveNumber">What wave the player is on</param>
+        </member>
+        <member name="F:StephenFetinko_Bullet_Hell.BulletHell.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.BulletHell.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:StephenFetinko_Bullet_Hell.PlayerShip">
+            <summary>
+            Class for the player controlled object - the ship
+            Player ship found here http://www.mattkeeter.com/projects/pixelsim/
+            </summary>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.PlayerShip.#ctor(System.Drawing.Rectangle)">
+            <summary>
+            Constructor for the player object (The ship)
+            </summary>
+            <param name="canvas"></param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.PlayerShip.MovePlayer(StephenFetinko_Bullet_Hell.PlayerShip.Direction)">
+            <summary>
+            Handle player movement in up, down, left and right directions
+            </summary>
+            <param name="direction"></param>
+        </member>
+        <member name="M:StephenFetinko_Bullet_Hell.PlayerShip.Draw(System.Drawing.Graphics)">
+            <summary>
+            Draw the player object (The ship)
+            </summary>
+            <param name="graphics"></param>
+        </member>
+        <member name="T:StephenFetinko_Bullet_Hell.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:StephenFetinko_Bullet_Hell.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:StephenFetinko_Bullet_Hell.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>
